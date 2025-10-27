@@ -4,7 +4,7 @@ import os
 # --- Define project structure relative to current directory ---
 structure = [
     "README.md",
-    "requirements.txt",
+    "environment.yml",
     "pyproject.toml",
     "mlruns/.gitkeep",
     "data/.gitkeep",

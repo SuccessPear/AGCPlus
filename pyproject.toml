@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ags"
+version = "0.1.0"
+description = "Adaptive Gradient Stabilization research framework"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Thanh Cong Le"}, {name = "Manh Tuan Do"}]
+# optional – you can also keep deps in environment.yml instead
+dependencies = []
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ags*"]  # picks up src/ags/...
+
+# optional: create a CLI, e.g. `ags-train`
+[project.scripts]
+ags-train = "ags.entrypoints.train:main"
