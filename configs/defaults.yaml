@@ -1,0 +1,7 @@
+defaults:
+  - dataset: cifar10
+  - model: my_cnn     # đổi qua my_mlp để dùng MLP
+  - optimizer: adam
+  - scheduler: cosine
+  - grad: agc
+  - trainer: base

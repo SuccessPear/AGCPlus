@@ -1,0 +1,12 @@
+name: my_cnn
+num_layers: 5           # số block conv
+width: 64               # hoặc dùng width_list để tuỳ biến từng block
+# width_list: [64, 64, 128, 128, 256]
+kernel_size: 3
+activation: relu        # relu | gelu | silu
+norm: bn                # bn | null
+pool_every: 1           # pool sau mỗi N block (1 = pool mỗi block)
+pool_type: max          # max | avg
+dropout: 0.05
+head: gap               # gap (GlobalAvgPool+FC) | flatten (ít dùng)
+# num_classes: 10      # hoặc bỏ, dùng dataset.num_classes
