@@ -1,5 +1,7 @@
-name: cifar10
-num_classes: 10
-img_size: 32
-in_channels: 3
-path: data/processed/cifar10
+target: src.ags.data.cifar10.CIFAR10DataModule
+params:
+  name: cifar10
+  num_classes: 10
+  img_size: 32
+  in_channels: 3
+  path: data/processed/cifar10

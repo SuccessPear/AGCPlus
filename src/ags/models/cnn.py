@@ -1,7 +1,7 @@
 import torch.nn as nn
 
 def _num_classes(cfg):
-    return getattr(cfg.model, "num_classes", getattr(cfg.dataset, "num_classes", 10))
+    return getattr(cfg, "num_classes", 10)
 
 def _get_list(v, n=None):
     if isinstance(v, (list, tuple)): return list(v)
@@ -70,19 +70,18 @@ class FlexibleCNN(nn.Module):
         x = self.head(x)
         return x
 
-@MODELS.register("my_cnn")
 def build_my_cnn(cfg):
-    in_ch       = getattr(cfg.dataset, "in_channels", getattr(cfg.model, "in_channels", 3))
-    num_layers  = getattr(cfg.model, "num_layers", 4)
-    width       = getattr(cfg.model, "width", 64)        # int hoặc list
-    width_list  = getattr(cfg.model, "width_list", None) # list[int] optional
-    k           = getattr(cfg.model, "kernel_size", 3)
-    activation  = getattr(cfg.model, "activation", "relu")
-    norm        = getattr(cfg.model, "norm", "bn")       # 'bn' hoặc None
-    pool_every  = getattr(cfg.model, "pool_every", 1)    # ví dụ 1: pool sau mỗi block
-    pool_type   = getattr(cfg.model, "pool_type", "max")
-    dropout     = getattr(cfg.model, "dropout", 0.0)
-    head        = getattr(cfg.model, "head", "gap")
+    in_ch       = getattr(cfg, "in_channels", 3)
+    num_layers  = getattr(cfg, "num_layers", 4)
+    width       = getattr(cfg, "width", 64)        # int hoặc list
+    width_list  = getattr(cfg, "width_list", None) # list[int] optional
+    k           = getattr(cfg, "kernel_size", 3)
+    activation  = getattr(cfg, "activation", "relu")
+    norm        = getattr(cfg, "norm", "bn")       # 'bn' hoặc None
+    pool_every  = getattr(cfg, "pool_every", 1)    # ví dụ 1: pool sau mỗi block
+    pool_type   = getattr(cfg, "pool_type", "max")
+    dropout     = getattr(cfg, "dropout", 0.0)
+    head        = getattr(cfg, "head", "gap")
 
     channels = _get_list(width_list if width_list is not None else width, n=num_layers)
     return FlexibleCNN(in_channels=in_ch,

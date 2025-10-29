@@ -1,5 +1,23 @@
 dataset: cifar10
-model: mlp
+model: cnn
 optimizer: adam
 grad: agc      # đổi sang none, ags, clipnorm dễ dàng
 trainer: default
+mlflow:
+  tracking_uri: "file:mlruns"  # nếu không set ENV thì dùng cái này
+  experiment: "ags"
+  run_name: "cnn_adamw_agc_v1"
+  register_as: null            # "ags-cifar10-cnn" để push vào registry
+  tags:
+    project: "AGC"
+    dataset: "CIFAR10"
+    model: "CNN"
+    optimizer: "AdamW"
+    notes: "Baseline with AGC, bs=128"
+  autolog: false               # nếu muốn bật mlflow.autolog()
+
+ckpt:
+  dir: runs/exp1
+  best: runs/exp1/best.pt
+  last: runs/exp1/last.pt
+  save_best_on: "val_loss"

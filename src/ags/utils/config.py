@@ -168,6 +168,3 @@ def load_config(path: str | os.PathLike | Mapping[str, Any]) -> DotDict:
         config = yaml.safe_load(f)
         config = DotDict.from_mapping(config)
         return config
-
-
-print(compose_named_configs("../../../configs/defaults.yaml"))

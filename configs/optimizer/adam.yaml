@@ -1,5 +1,7 @@
-name: adam
-lr: 0.001
-weight_decay: 0.0005
-betas: [0.9, 0.999]
-eps: 1e-8
+target: src.ags.optim.optim_factory.build_adam
+params:
+  name: adam
+  lr: 0.001
+  weight_decay: 0.0005
+  betas: [0.9, 0.999]
+  eps: 1e-8
