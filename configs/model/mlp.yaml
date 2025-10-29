@@ -1,4 +1,4 @@
-name: my_mlp
+name: mlp
 # nếu dữ liệu là ảnh 32x32x3 và bạn flatten trước khi vào MLP, có thể bỏ in_dim → tự tính 32*32*3
 # in_dim: 3072
 num_layers: 4           # số hidden layers

@@ -1,4 +1,4 @@
-name: my_cnn
+name: cnn
 num_layers: 5           # số block conv
 width: 64               # hoặc dùng width_list để tuỳ biến từng block
 # width_list: [64, 64, 128, 128, 256]
