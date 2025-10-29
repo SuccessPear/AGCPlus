@@ -10,6 +10,7 @@ def _get_num_classes(cfg):
         return cfg.dataset.num_classes
     return 10  # default an toàn
 
+@MODELS.register("resnet")
 def build_resnet(cfg):
     name = cfg.model.name.lower()
     pretrained = getattr(cfg.model, "pretrained", False)

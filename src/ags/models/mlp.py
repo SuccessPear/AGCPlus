@@ -1,5 +1,4 @@
 import torch.nn as nn
-from ags.registry import MODELS
 
 def _num_classes(cfg):
     return getattr(cfg.model, "num_classes", getattr(cfg.dataset, "num_classes", 10))
@@ -42,16 +41,16 @@ class MLP(nn.Module):
 
 @MODELS.register("mlp")
 def build_mlp(cfg):
-    num_layers   = getattr(cfg.model, "num_layers", 3)
-    hidden_size  = getattr(cfg.model, "hidden_size", 256)   # int
-    hidden_list  = getattr(cfg.model, "hidden_list", None)  # list[int] optional
-    dropout      = getattr(cfg.model, "dropout", 0.0)
-    activation   = getattr(cfg.model, "activation", "relu")
-    norm         = getattr(cfg.model, "norm", None)
+    num_layers   = getattr(cfg, "num_layers", 3)
+    hidden_size  = getattr(cfg, "hidden_size", 256)   # int
+    hidden_list  = getattr(cfg, "hidden_list", None)  # list[int] optional
+    dropout      = getattr(cfg, "dropout", 0.0)
+    activation   = getattr(cfg, "activation", "relu")
+    norm         = getattr(cfg, "norm", None)
 
     # đầu vào: nếu dùng ảnh (CIFAR 32x32x3) mà bạn flatten trước khi vào MLP
     # thì in_dim = 32*32*3; nếu dữ liệu vector, đặt thẳng in_dim trong YAML
-    in_dim = getattr(cfg.model, "in_dim", None)
+    in_dim = getattr(cfg, "in_dim", None)
     if in_dim is None:
         img_sz = getattr(cfg.dataset, "img_size", 32)
         in_ch  = getattr(cfg.dataset, "in_channels", 3)

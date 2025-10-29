@@ -1,5 +1,4 @@
 import torch.nn as nn
-from ags.registry import MODELS
 
 def _num_classes(cfg):
     return getattr(cfg.model, "num_classes", getattr(cfg.dataset, "num_classes", 10))
