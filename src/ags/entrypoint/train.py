@@ -128,9 +128,12 @@ def train(config_path: str):
         # 2) Build data/model/opt
         train_loader, val_loader, test_loader = load_dataloaders(cfg)
         model = load_model(cfg).to(device)
+        print(model)
+        #return
         loss_fn = nn.CrossEntropyLoss()
         optimizer = load_optimizer(model, cfg)
         scaler = torch.cuda.amp.GradScaler(enabled=bool(cfg.get("train", {}).get("amp", False)))
+        scheduler = load_scheduler(optimizer, cfg)
 
         # 3) Metrics (acc@1/5 + f1_macro)
         metric_fns = {
@@ -138,7 +141,7 @@ def train(config_path: str):
             "f1":  lambda p, t: f1_score(p, t, average="macro", logits=True),
         }
 
-        trainer = Trainer(model=model, optimizer=optimizer, loss_fn=loss_fn, scaler=scaler, device=device)
+        trainer = Trainer(model=model, optimizer=optimizer, loss_fn=loss_fn, scaler=scaler, scheduler=scheduler, device=device)
 
         # 4) Best checkpoint logic (min nếu chứa 'loss', max otherwise)
         ckpt_cfg = cfg.get("ckpt", {}) or {}

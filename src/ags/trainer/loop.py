@@ -2,11 +2,12 @@ import torch
 from tqdm import tqdm
 
 class Trainer:
-    def  __init__(self, model, optimizer, loss_fn, scaler=None, device="cuda"):
+    def  __init__(self, model, optimizer, loss_fn, scaler=None, scheduler=None, device="cuda"):
         self.model = model.to(device)
         self.optimizer = optimizer
         self.loss_fn = loss_fn
         self.scaler = scaler
+        self.scheduler = scheduler
         self.device = device
 
     def fit(self, train_loader, max_epoch=10, val_fn=None):
@@ -41,6 +42,7 @@ class Trainer:
                 epoch_loss += loss.item()
                 state["global_step"] += 1
 
+            self.scheduler.step()
             state["epoch_loss"] = epoch_loss / max(1, len(train_loader))
             if val_fn:
                 state.update(val_fn(state))

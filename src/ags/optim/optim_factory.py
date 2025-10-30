@@ -6,7 +6,7 @@ def build_adam(cfg, params):
         lr=float(cfg.lr),
         betas=tuple(float(i) for i in cfg.betas),
         eps=float(cfg.eps),
-        weight_decay=bool(cfg.weight_decay),
+        weight_decay=float(cfg.weight_decay),
     )
 
 def build_adamw(cfg, params):
