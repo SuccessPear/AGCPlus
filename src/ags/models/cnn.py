@@ -71,17 +71,17 @@ class FlexibleCNN(nn.Module):
         return x
 
 def build_my_cnn(cfg):
-    in_ch       = getattr(cfg, "in_channels", 3)
-    num_layers  = getattr(cfg, "num_layers", 4)
-    width       = getattr(cfg, "width", 64)        # int hoặc list
-    width_list  = getattr(cfg, "width_list", None) # list[int] optional
-    k           = getattr(cfg, "kernel_size", 3)
-    activation  = getattr(cfg, "activation", "relu")
-    norm        = getattr(cfg, "norm", "bn")       # 'bn' hoặc None
-    pool_every  = getattr(cfg, "pool_every", 1)    # ví dụ 1: pool sau mỗi block
-    pool_type   = getattr(cfg, "pool_type", "max")
-    dropout     = getattr(cfg, "dropout", 0.0)
-    head        = getattr(cfg, "head", "gap")
+    in_ch       = cfg.get("in_channels", 3)
+    num_layers  = cfg.get("num_layers", 4)
+    width       = cfg.get("width", 64)        # int hoặc list
+    width_list  = cfg.get("width_list", None) # list[int] optional
+    k           = cfg.get("kernel_size", 3)
+    activation  = cfg.get("activation", "relu")
+    norm        = cfg.get("norm", "bn")       # 'bn' hoặc None
+    pool_every  = cfg.get("pool_every", 1)    # ví dụ 1: pool sau mỗi block
+    pool_type   = cfg.get("pool_type", "max")
+    dropout     = cfg.get("dropout", 0.0)
+    head        = cfg.get("head", "gap")
 
     channels = _get_list(width_list if width_list is not None else width, n=num_layers)
     return FlexibleCNN(in_channels=in_ch,

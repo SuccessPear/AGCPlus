@@ -1,4 +1,6 @@
+target: src.ags.grad.agc.AGC
 name: agc
-clip_factor: 0.01       # hệ số clipping (giống paper)
-eps: 1e-3               # tránh chia cho 0
-exclude_bias: true      # không áp dụng AGC cho bias/LayerNorm
+params:
+  clip_factor: 0.01       # hệ số clipping (giống paper)
+  eps: 1e-3               # tránh chia cho 0
+  exclude_bias: true      # không áp dụng AGC cho bias/LayerNorm

@@ -129,11 +129,12 @@ def train(config_path: str):
         train_loader, val_loader, test_loader = load_dataloaders(cfg)
         model = load_model(cfg).to(device)
         print(model)
-        #return
+
         loss_fn = nn.CrossEntropyLoss()
         optimizer = load_optimizer(model, cfg)
         scaler = torch.cuda.amp.GradScaler(enabled=bool(cfg.get("train", {}).get("amp", False)))
         scheduler = load_scheduler(optimizer, cfg)
+        grad_control = load_grad_control(cfg)
 
         # 3) Metrics (acc@1/5 + f1_macro)
         metric_fns = {
@@ -141,7 +142,7 @@ def train(config_path: str):
             "f1":  lambda p, t: f1_score(p, t, average="macro", logits=True),
         }
 
-        trainer = Trainer(model=model, optimizer=optimizer, loss_fn=loss_fn, scaler=scaler, scheduler=scheduler, device=device)
+        trainer = Trainer(model=model, optimizer=optimizer, loss_fn=loss_fn, scaler=scaler, scheduler=scheduler, gc = grad_control, device=device)
 
         # 4) Best checkpoint logic (min nếu chứa 'loss', max otherwise)
         ckpt_cfg = cfg.get("ckpt", {}) or {}
@@ -168,7 +169,7 @@ def train(config_path: str):
                 ep = state["epoch"]
 
                 # log metrics mỗi epoch
-                log_kv = {"epoch_loss": float(state.get("epoch_loss", 0.0))}
+                log_kv = {"epoch_loss_train": float(state.get("epoch_loss_train", 0.0))}
                 for k, v in res.items():
                     if isinstance(v, (int, float)):
                         log_kv[k] = float(v)
