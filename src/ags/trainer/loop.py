@@ -45,9 +45,9 @@ class Trainer:
 
                 epoch_loss += loss.item()
                 state["global_step"] += 1
-
-            self.scheduler.step()
+            if self.scheduler:
+                self.scheduler.step()
             state["epoch_loss_train"] = epoch_loss / max(1, len(train_loader))
             if val_fn:
                 state.update(val_fn(state))
-            counter.set_description(f"Loss: {state['loss']:.3f}, acc: {state['acc_1']:.3f}")
+            counter.set_description(f"lr: {self.optimizer.param_groups[0]['lr']:.3e} | Loss: {state['loss']:.3f}, acc: {state['acc_1']:.3f}")

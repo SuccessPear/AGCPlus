@@ -5,3 +5,6 @@ def build_scheduler_exponential(cfg, optimizer):
         optimizer,
         gamma=cfg.gamma,
     )
+
+def build_scheduler_step(cfg, optimizer):
+    return lr_scheduler.StepLR(optimizer, step_size=cfg.step_size, gamma=cfg.gamma)

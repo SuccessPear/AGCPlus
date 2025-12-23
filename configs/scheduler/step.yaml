@@ -1,0 +1,4 @@
+target: src.ags.scheduler.scheduler_factory.build_scheduler_step
+params:
+  step_size: 5
+  gamma: 0.8
