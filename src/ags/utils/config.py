@@ -36,31 +36,9 @@ class DotDict(dict):
     def from_mapping(cls, m: Mapping[str, Any]) -> "DotDict":
         return cls({k: cls._wrap(v) for k, v in m.items()})
 
-# --- bổ sung vào src/utils/config.py ---
-
-import os
-from typing import Dict, Tuple
-
-# Mặc định gốc tìm config con: thư mục chứa experiment.yaml, hoặc bạn có thể
-# trỏ thẳng tới "configs/" cấp trên. Ta sẽ suy luận hợp lý (xem hàm bên dưới).
-
 # ---- add to src/utils/config.py ----
 import os
-from typing import Dict, Tuple
 
-# map khóa -> thư mục con (theo cấu trúc bạn đang dùng)
-# _RESOLVE_TABLE: Dict[str, Tuple[str, ...]] = {
-#     "model": ("model",),
-#     "optimizer": ("optimizer",),
-#     "loss": ("loss", "losses"),      # nếu về sau bạn thêm mục 'loss/'
-#     "metric": ("metric", "metrics"), # tương tự
-#     "grad": ("grad",),               # agc / clipnorm / none
-#     "scheduler": ("scheduler",),
-#     "trainer": ("trainer",),         # các mặc định cho trainer (max_epoch, amp, ...)
-# }
-#
-# # dataset có thể là 1 file gom cả 3 loader
-# _DATASET_DIRS: Tuple[str, ...] = ("dataset",)
 
 def _configs_root_from_exp(exp_path: str) -> str:
     """
@@ -82,7 +60,7 @@ def _load_named_yaml(root: str, subdir: str, name: str) -> DotDict:
         f"Cannot find '{name}.yaml' under {root} in any of {subdir}"
     )
 
-def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None) -> DotDict:
+def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None, gc = None) -> DotDict:
     """
     - exp_cfg_or_path: đường dẫn tới configs/experiment/<exp>.yaml hoặc mapping
     - base_dir: gốc thư mục 'configs/'. Nếu None, sẽ suy ra từ exp path.
@@ -99,32 +77,16 @@ def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None) -> DotDi
             raise ValueError("compose_named_configs(mapping): please provide base_dir='path/to/configs'")
         root = os.path.abspath(base_dir)
 
-    # # 1) dataset: cho phép 2 kiểu
-    # #    - exp.dataset là TÊN -> load configs/dataset/<name>.yaml
-    # #      file này nên chứa data.train_loader / val_loader / test_loader
-    # ds_name = exp_cfg.get("dataset", None)
-    # if isinstance(ds_name, str):
-    #     ds_cfg = _load_named_yaml(root, _DATASET_DIRS, ds_name)
-    #     # ghép vào exp_cfg['data'] (tạo nếu chưa có)
-    #     data_block = exp_cfg.get("data", {})
-    #     # ưu tiên các khóa trong file dataset
-    #     for k in ("train_loader", "val_loader", "test_loader"):
-    #         if k in ds_cfg:
-    #             data_block[k] = ds_cfg[k]
-    #         elif "data" in ds_cfg and isinstance(ds_cfg["data"], dict) and k in ds_cfg["data"]:
-    #             data_block[k] = ds_cfg["data"][k]
-    #     exp_cfg["data"] = data_block
-    #
-    # # 2) resolve các thành phần còn lại theo tên (model/optimizer/grad/metric/loss/scheduler/trainer)
-    # for key, subdirs in _RESOLVE_TABLE.items():
-    #     val = exp_cfg.get(key, None)
-    #     if isinstance(val, str):
-    #         exp_cfg[key] = _load_named_yaml(root, subdirs, val)
     for key, name in exp_cfg.items():
+        if key == "grad":
+            name = gc
         if isinstance(name, str):
             cfg = _load_named_yaml(root, key, name)
             exp_cfg[key] = cfg
-
+    grad_name = exp_cfg.grad.params.name if exp_cfg.grad else "nongrad"
+    schedule_name = exp_cfg.schedule.params.name if exp_cfg.schedule else "nonsche"
+    optim_name = exp_cfg.optimizer.params.name if exp_cfg.optimizer else "nonopt"
+    exp_cfg.mlflow.run_name = f"{exp_cfg.model.params.name}_{exp_cfg.dataset.params.name}_{grad_name}_{schedule_name}_{optim_name}"
     return exp_cfg
 
 

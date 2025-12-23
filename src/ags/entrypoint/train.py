@@ -96,8 +96,8 @@ def _save_ckpt(path, model, extra=None):
     torch.save(payload, path)
 
 
-def train(config_path: str):
-    cfg = compose_named_configs(config_path)
+def train(config_path: str, gc = ""):
+    cfg = compose_named_configs(config_path, gc=gc)
     logger = get_logger(__name__)
     seed_everything(int(cfg.get("seed", 42)))
     device = cfg.get("device", "cuda" if torch.cuda.is_available() else "cpu")
