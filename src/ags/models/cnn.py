@@ -9,15 +9,21 @@ def _get_list(v, n=None):
     return [v for _ in range(n)]
 
 class ConvBlock(nn.Module):
-    def __init__(self, in_ch, out_ch, k=3, s=1, p=1, norm="bn", activation="relu", pool=None, dropout=0.0):
+    def __init__(self, in_ch, out_ch, k=3, s=1, p=1, norm="bn", activation="relu", pool=None, dropout=0.0, num_convs=1):
         super().__init__()
         act = {"relu": nn.ReLU, "gelu": nn.GELU, "silu": nn.SiLU}[activation]
         layers = [nn.Conv2d(in_ch, out_ch, kernel_size=k, stride=s, padding=p, bias=(norm is None))]
         if norm == "bn": layers += [nn.BatchNorm2d(out_ch)]
         layers += [act()]
+        if num_convs == 2:
+            layers += [nn.Conv2d(out_ch, out_ch, kernel_size=k, stride=s, padding=p, bias=(norm is None))]
+            if norm == "bn": layers += [nn.BatchNorm2d(out_ch)]
+            layers += [act()]
         if pool == "max": layers += [nn.MaxPool2d(2)]
         if pool == "avg": layers += [nn.AvgPool2d(2)]
+
         if dropout > 0: layers += [nn.Dropout2d(dropout)]
+
         self.block = nn.Sequential(*layers)
 
         # init conv
@@ -31,7 +37,7 @@ class ConvBlock(nn.Module):
 
 class FlexibleCNN(nn.Module):
     def __init__(self, in_channels, num_classes, channels, k=3, activation="relu", norm="bn",
-                 pool_every=1, pool_type="max", dropout=0.0, head="gap"):
+                 pool_every=1, pool_type="max", dropout=0.0, head="gap", num_convs=1):
         """
         channels: list[int], độ rộng từng block
         pool_every: sau mỗi N block thì áp dụng pooling 2x
@@ -42,7 +48,7 @@ class FlexibleCNN(nn.Module):
         in_ch = in_channels
         for i, ch in enumerate(channels):
             pool = pool_type if ((i + 1) % pool_every == 0) else None
-            blocks += [ConvBlock(in_ch, ch, k=k, p=k//2, norm=norm, activation=activation, pool=pool, dropout=dropout)]
+            blocks += [ConvBlock(in_ch, ch, k=k, p=k//2, norm=norm, activation=activation, pool=pool, dropout=dropout, num_convs=num_convs)]
             in_ch = ch
         self.features = nn.Sequential(*blocks)
 
@@ -50,7 +56,9 @@ class FlexibleCNN(nn.Module):
             self.head = nn.Sequential(
                 nn.AdaptiveAvgPool2d(1),
                 nn.Flatten(),
-                nn.Linear(in_ch, num_classes)
+                nn.Linear(in_ch, 256),
+                nn.ReLU(inplace=True),
+                nn.Linear(256, num_classes),
             )
         elif head == "flatten":
             # dùng khi bạn muốn giữ kích thước spatial (cần biết H,W sau conv)
@@ -82,6 +90,7 @@ def build_my_cnn(cfg):
     pool_type   = cfg.get("pool_type", "max")
     dropout     = cfg.get("dropout", 0.0)
     head        = cfg.get("head", "gap")
+    num_convs = cfg.get("num_convs", 1)
 
     channels = _get_list(width_list if width_list is not None else width, n=num_layers)
     return FlexibleCNN(in_channels=in_ch,
@@ -93,4 +102,5 @@ def build_my_cnn(cfg):
                        pool_every=pool_every,
                        pool_type=pool_type,
                        dropout=dropout,
-                       head=head)
+                       head=head,
+                       num_convs = num_convs)
