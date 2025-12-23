@@ -1,0 +1,11 @@
+target: src.ags.grad.var_agc.VarAGC
+name: var_agc
+params:
+  clip_factor: 0.01
+  eps: 1e-6
+  exclude_bias: true
+
+  # Fisher-specific (optional)
+  var_beta: 0.99
+  var_eps: 1e-8
+
