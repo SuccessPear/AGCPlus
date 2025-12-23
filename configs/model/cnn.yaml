@@ -3,12 +3,13 @@ params:
   name: cnn
   num_layers: 3           # số block conv
   #width: 64               # hoặc dùng width_list để tuỳ biến từng block
-  width_list: [32, 64, 128]
+  width_list: [64, 64, 128, 256]
+  num_convs: 2
   kernel_size: 3
   activation: relu        # relu | gelu | silu
   norm: bn                # bn | null
   pool_every: 1           # pool sau mỗi N block (1 = pool mỗi block)
   pool_type: max          # max | avg
-  dropout: 0.05
+  dropout: 0.2
   head: gap               # gap (GlobalAvgPool+FC) | flatten (ít dùng)
   # num_classes: 10      # hoặc bỏ, dùng dataset.num_classes
