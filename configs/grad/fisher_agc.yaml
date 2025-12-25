@@ -6,6 +6,6 @@ params:
   exclude_bias: true
 
   # Fisher-specific (optional)
-  fisher_beta: 0.99
+  fisher_beta: 0.95
   fisher_eps: 1e-8
 

@@ -1,3 +1,4 @@
 target: src.ags.scheduler.scheduler_factory.build_scheduler_exponential
+name: exp
 params:
   gamma: 0.95

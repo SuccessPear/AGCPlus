@@ -54,16 +54,39 @@ def seed_everything(seed: int = 42, deterministic: bool = False, warn_if_cuda_mi
 
     return seed
 
-def stratified_split_indices(labels, val_ratio=0.1):
+def stratified_split_indices(labels, val_ratio=0.1, N=None, seed=None):
     import numpy as np
-    rng = np.random.default_rng()
+
+    rng = np.random.default_rng(seed)
     y = np.asarray(labels)
+
+    classes, counts = np.unique(y, return_counts=True)
+
+    # determine how many samples per class
+    if N is not None:
+        # proportional allocation
+        class_quota = {
+            c: max(1, int(round(N * cnt / len(y))))
+            for c, cnt in zip(classes, counts)
+        }
+    else:
+        class_quota = {c: cnt for c, cnt in zip(classes, counts)}
+
     train_idx, val_idx = [], []
-    for c in np.unique(y):
+
+    for c in classes:
         idx = np.where(y == c)[0]
         rng.shuffle(idx)
+
+        quota = min(len(idx), class_quota[c])
+        idx = idx[:quota]
+
         n_val = int(round(len(idx) * val_ratio))
         val_idx.extend(idx[:n_val])
         train_idx.extend(idx[n_val:])
-    rng.shuffle(train_idx); rng.shuffle(val_idx)
+
+    rng.shuffle(train_idx)
+    rng.shuffle(val_idx)
+
     return train_idx, val_idx
+
