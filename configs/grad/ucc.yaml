@@ -1,0 +1,8 @@
+target: src.ags.grad.ucc.UpdateConsistencyControl
+name: ucc
+
+params:
+  beta: 0.9          # EMA for gradient direction memory
+  tau: 0.1           # agreement threshold
+  eps: 1e-8
+  exclude_bias: true
