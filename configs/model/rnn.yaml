@@ -1,0 +1,14 @@
+target: src.ags.models.rnn.build_my_rnn
+name: lstm
+params:
+
+  input_dim: 5        # OHLCV
+  hidden_dim: 128
+  num_layers: 2
+
+  rnn_type: lstm      # rnn | lstm | gru
+  bidirectional: false
+  dropout: 0.2
+
+  head: linear        # linear | mlp
+  output_dim: 5       # next-step regression

@@ -1,0 +1,13 @@
+target: src.ags.data.yfinance_ts.YFinanceDataModule
+params:
+  name: yfinance
+  ticker: AAPL
+  start: "2015-01-01"
+  end: "2024-01-01"
+
+  seq_len: 30          # length of input sequence
+  input_dim: 5         # OHLCV
+  target_dim: 5        # predict next OHLCV
+
+  num_data: 5000       # optional (like CIFAR)
+  path: data/processed/yfinance
