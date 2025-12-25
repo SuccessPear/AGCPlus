@@ -1,0 +1,13 @@
+target: src.ags.grad.dynamic_agc.DynamicAGC
+name: dynamic_agc
+params:
+  clip_factor: 0.01
+  eps: 1e-6
+  exclude_bias: true
+
+  # dynamic control
+  target_clip_rate: 0.05
+  adapt_lr: 0.02
+  ema_beta: 0.95
+  min_clip: 1e-4
+  max_clip: 0.5

@@ -1,0 +1,17 @@
+target: src.ags.grad.safe_dynamic_agc.SafeDynamicAGC
+name: safe_dynamic_agc
+
+params:
+  # ===== Base AGC =====
+  clip_factor: 0.01
+  eps: 1e-6
+  exclude_bias: true
+
+  # ===== Dynamic control =====
+  severity_thresh: 0.3     # what counts as a dangerous spike
+  tighten_lr: 0.005        # emergency tightening speed
+  relax_lr: 0.001          # slow relaxation speed
+
+  # ===== Safety bounds =====
+  min_clip: 1e-4
+  max_clip: 1.0
