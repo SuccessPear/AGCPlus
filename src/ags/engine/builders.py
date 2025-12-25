@@ -149,10 +149,6 @@ def load_grad_control(cfg) -> Optional[Any]:
     gc = cfg.get("grad") or cfg.get("grad_control")
     return _instantiate(gc) if gc else None
 
-def load_hooks(cfg) -> Any:
-    h = cfg.get("hooks")
-    if h:
-        return _instantiate(h)
-    class _NoHooks:
-        def emit(self, *args, **kwargs): pass
-    return _NoHooks()
+def load_criterion(cfg) -> Optional[Any]:
+    loss_fn = cfg.get("criterion") or cfg.get("loss_fn")
+    return _instantiate(loss_fn) if loss_fn else None

@@ -56,9 +56,9 @@ def _load_named_yaml(root: str, subdir: str, name: str) -> DotDict:
         p = os.path.join(root, subdir, f"{name}{ext}")
         if os.path.exists(p):
             return load_config(p)
-    raise FileNotFoundError(
-        f"Cannot find '{name}.yaml' under {root} in any of {subdir}"
-    )
+    # raise FileNotFoundError(
+    #     f"Cannot find '{name}.yaml' under {root} in any of {subdir}"
+    # )
 
 def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None, gc = None) -> DotDict:
     """
@@ -83,8 +83,8 @@ def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None, gc = Non
         if isinstance(name, str):
             cfg = _load_named_yaml(root, key, name)
             exp_cfg[key] = cfg
-    grad_name = exp_cfg.grad.params.name if exp_cfg.grad else "nongrad"
-    schedule_name = exp_cfg.schedule.params.name if exp_cfg.schedule else "nonsche"
+    grad_name = exp_cfg.grad.name if exp_cfg.grad else "nongrad"
+    schedule_name = exp_cfg.schedule.name if exp_cfg.schedule else "nonsche"
     optim_name = exp_cfg.optimizer.params.name if exp_cfg.optimizer else "nonopt"
     exp_cfg.mlflow.run_name = f"{exp_cfg.model.params.name}_{exp_cfg.dataset.params.name}_{grad_name}_{schedule_name}_{optim_name}"
     return exp_cfg

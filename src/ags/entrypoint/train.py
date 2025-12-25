@@ -130,19 +130,21 @@ def train(config_path: str, gc = ""):
         model = load_model(cfg).to(device)
         print(model)
 
-        loss_fn = nn.CrossEntropyLoss()
+        loss_fn = load_criterion(cfg)
         optimizer = load_optimizer(model, cfg)
         scaler = torch.cuda.amp.GradScaler(enabled=bool(cfg.get("train", {}).get("amp", False)))
         scheduler = load_scheduler(optimizer, cfg)
         grad_control = load_grad_control(cfg)
 
         # 3) Metrics (acc@1/5 + f1_macro)
-        metric_fns = {
-            "acc": lambda p, t: accuracy(p, t, topk=(1, 5), logits=True),
-            "f1":  lambda p, t: f1_score(p, t, average="macro", logits=True),
-        }
-
-        trainer = Trainer(model=model, optimizer=optimizer, loss_fn=loss_fn, scaler=scaler, scheduler=scheduler, gc = grad_control, device=device)
+        if cfg.task == "classification":
+            metric_fns = {
+                "acc": lambda p, t: accuracy(p, t, topk=(1, 5), logits=True),
+                "f1":  lambda p, t: f1_score(p, t, average="macro", logits=True),
+            }
+        else:
+            metric_fns = {}
+        trainer = Trainer(model=model, optimizer=optimizer, loss_fn=loss_fn, scaler=scaler, scheduler=scheduler, gc = grad_control, device=device, task=cfg.task)
 
         # 4) Best checkpoint logic (min nếu chứa 'loss', max otherwise)
         ckpt_cfg = cfg.get("ckpt", {}) or {}

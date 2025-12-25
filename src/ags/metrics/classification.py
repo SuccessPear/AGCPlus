@@ -96,3 +96,6 @@ def f1_score(
         f1m  = 2 * prec * rec / (prec + rec + eps)
         return {"f1_micro": float(f1m)}
     raise ValueError(f"Unknown average='{average}'")
+
+def ce(cfg):
+    return torch.nn.CrossEntropyLoss()
