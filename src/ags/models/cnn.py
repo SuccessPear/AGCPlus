@@ -64,6 +64,13 @@ class FlexibleCNN(nn.Module):
             # dùng khi bạn muốn giữ kích thước spatial (cần biết H,W sau conv)
             self.head = nn.Identity()
             self.classifier = nn.Linear(in_ch, num_classes)  # placeholder, cần tính in_features thủ công
+        elif head == "adaptivepool":
+            self.head = nn.Sequential(
+                nn.AdaptiveAvgPool2d(1),
+                nn.Flatten(),
+                nn.Linear(in_ch, num_classes),
+            )
+
         else:
             raise ValueError("head must be 'gap' or 'flatten'")
 
