@@ -1,7 +1,7 @@
 import torch.nn as nn
 
 def _num_classes(cfg):
-    return getattr(cfg, "num_classes", 10)
+    return cfg.get("num_classes", 10)
 
 def _get_list(v, n=None):
     if isinstance(v, (list, tuple)): return list(v)
