@@ -16,7 +16,8 @@ class Trainer:
         state = {
             "model": self.model, "optimizer": self.optimizer,
             "loss_fn": self.loss_fn, "scaler": self.scaler,
-            "device": self.device, "global_step": 0, "max_epoch": max_epoch
+            "device": self.device, "global_step": 0, "max_epoch": max_epoch,
+            "batch_losses": []
         }
         counter = tqdm(range(max_epoch))
         for epoch in counter:
@@ -32,7 +33,7 @@ class Trainer:
                     pred = self.model(x)
                     loss = self.loss_fn(pred, y)
 
-                state["loss"] = loss
+                state["batch_losses"].append(loss.item())
                 (self.scaler.scale(loss) if self.scaler else loss).backward()
 
                 if self.gc:
@@ -52,6 +53,6 @@ class Trainer:
             if val_fn:
                 state.update(val_fn(state))
             if self.task == "classification":
-                counter.set_description(f"lr: {self.optimizer.param_groups[0]['lr']:.3e} | Loss: {state['loss']:.3f}, acc: {state['acc_1']:.3f}")
+                counter.set_description(f"lr: {self.optimizer.param_groups[0]['lr']:.3e} | Loss: {state['epoch_loss_train']:.3f}, acc: {state['acc_1']:.3f}")
             else:
-                counter.set_description(f"Loss: {state['loss']:.3f}")
+                counter.set_description(f"Loss: {state['epoch_loss_train']:.3f}")

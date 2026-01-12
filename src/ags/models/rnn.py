@@ -67,6 +67,8 @@ class FlexibleRNN(nn.Module):
         h_last = out[:, -1]        # many-to-one
         return self.head(h_last)
 
+
+
 def build_my_rnn(cfg):
     input_dim     = cfg.get("input_dim", 5)
     hidden_dim    = cfg.get("hidden_dim", 128)
@@ -86,3 +88,4 @@ def build_my_rnn(cfg):
         head=head,
         output_dim=_output_dim(cfg),
     )
+

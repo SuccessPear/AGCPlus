@@ -1,0 +1,9 @@
+# configs/dataset/mnist.yaml
+target: src.ags.data.mnist.MNISTDataModule
+params:
+  name: mnist
+  num_classes: 10
+  img_size: 28
+  in_channels: 1
+  num_data: 10000
+  path: data/processed/mnist

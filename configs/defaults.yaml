@@ -1,22 +1,23 @@
-dataset: yfinance_ts
-model: rnn
-task: regression
+dataset: cifar10
+model: vit
+task: classification
 optimizer: sgd
-criterion: mse
-grad:       # đổi sang none, ags, clipnorm dễ dàng
+criterion: ce
+grad:      # đổi sang none, ags, clipnorm dễ dàng
 trainer: default
 scheduler:
+batch_size: 16
 mlflow:
   tracking_uri: "file:mlruns"
-  experiment: "lightcnn_Fisher_0.1_0.01WD"
-  run_name: "cnn_sgd_0.1_var_noschedule_v3"
+  experiment: "vit_cifar10_experiments"
+  run_name: "MLP_sgd_0.1_agc_noschedule_v3"
   register_as: null            # "ags-cifar10-cnn" để push vào registry
   tags:
     project: "AGC"
-    dataset: "CIFAR10"
+    dataset: "MNIST"
     model: "CNN"
-    optimizer: "AdamW"
-    notes: "Experiment on Fisher AGC, bs=512, LightCNN"
+    optimizer: "ADAM"
+    notes: "Experiment on Fisher AGC, bs small, MLP"
   autolog: false               # nếu muốn bật mlflow.autolog()
 
 ckpt:

@@ -1,0 +1,18 @@
+target: src.ags.models.vit.build_vit
+params:
+  name: vit_cifar10
+
+  # data
+  img_size: 32
+  in_channels: 3
+  num_classes: 10
+
+  # patch
+  patch_size: 4
+
+  # transformer
+  embed_dim: 256
+  depth: 6
+  num_heads: 8
+  mlp_ratio: 4.0
+  dropout: 0.1

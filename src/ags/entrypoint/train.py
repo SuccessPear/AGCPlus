@@ -15,7 +15,7 @@ from collections import defaultdict
 import mlflow
 import math
 import json
-
+import numpy as np
 # =========================
 # Default validation epoch
 # =========================
@@ -139,8 +139,8 @@ def train(config_path: str, gc = ""):
         # 3) Metrics (acc@1/5 + f1_macro)
         if cfg.task == "classification":
             metric_fns = {
-                "acc": lambda p, t: accuracy(p, t, topk=(1, 5), logits=True),
-                "f1":  lambda p, t: f1_score(p, t, average="macro", logits=True),
+                "acc": lambda p, t: accuracy(p, t, topk=(1,), logits=True),
+                #"f1":  lambda p, t: f1_score(p, t, average="macro", logits=True),
             }
         else:
             metric_fns = {}
@@ -171,7 +171,11 @@ def train(config_path: str, gc = ""):
                 ep = state["epoch"]
 
                 # log metrics mỗi epoch
-                log_kv = {"epoch_loss_train": float(state.get("epoch_loss_train", 0.0))}
+                batch_losses = state.get("batch_losses", [])
+                log_kv = {"epoch_loss_train": float(state.get("epoch_loss_train", 0.0)),
+                          "batch_loss_mean": float(np.mean(batch_losses)),
+                            "batch_loss_std":  float(np.std(batch_losses)),
+                            "batch_loss_max":  float(np.max(batch_losses)),}
                 for k, v in res.items():
                     if isinstance(v, (int, float)):
                         log_kv[k] = float(v)

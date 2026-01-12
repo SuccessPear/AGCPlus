@@ -1,0 +1,9 @@
+# configs/dataset/sequential_mnist.yaml
+target: src.ags.data.sequential_mnist.SequentialMNISTDataModule
+params:
+  name: sequential_mnist
+  num_classes: 10
+  seq_len: 784
+  input_dim: 1
+  num_data: 10000
+  path: data/processed/mnist

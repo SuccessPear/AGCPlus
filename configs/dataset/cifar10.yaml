@@ -4,5 +4,5 @@ params:
   num_classes: 10
   img_size: 32
   in_channels: 3
-  num_data: 10000
+  num_data: 60000
   path: data/processed/cifar10

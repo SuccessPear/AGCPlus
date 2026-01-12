@@ -2,9 +2,9 @@ from src.ags.entrypoint.train import train
 
 def main():
     gc_methods = [
-        None,
-        # "agc",
-        # "fisher_agc",
+         None,
+        "agc",
+        "fisher_agc",
         # "var_agc",
         # "dynamic_agc",
         # "safe_dynamic_agc",

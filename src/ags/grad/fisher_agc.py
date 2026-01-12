@@ -89,6 +89,9 @@ class FisherAGC:
                 fisher_scale = 1.0
             else:
                 fisher_scale = 1.0 / torch.sqrt(fisher_val + self.fisher_eps)
+            # option B
+            if fisher_val < 1e-4 or fisher_val is None:
+                continue
 
             max_grad_norm = (
                 self.clip_factor * (param_norm + self.eps) * fisher_scale

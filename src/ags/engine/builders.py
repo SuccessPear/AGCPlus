@@ -109,7 +109,7 @@ def load_dataloaders(cfg):
     Trả về: train_loader, val_loader, test_loader
     """
     data = cfg["dataset"]
-    data["params"]["batch_size"] = cfg["trainer"]["batch_size"]
+    data["params"]["batch_size"] = cfg["batch_size"]
     data_module = _instantiate(data)
     data_module.setup()
     train_loader = data_module.train_loader()

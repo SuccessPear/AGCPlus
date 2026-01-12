@@ -1,6 +1,5 @@
 name: default
-epochs: 30
-batch_size: 32
+epochs: 10
 num_workers: 2
 amp: false
 log_every: 10

@@ -15,7 +15,7 @@ class ConvBlock(nn.Module):
         layers = [nn.Conv2d(in_ch, out_ch, kernel_size=k, stride=s, padding=p, bias=(norm is None))]
         if norm == "bn": layers += [nn.BatchNorm2d(out_ch)]
         layers += [act()]
-        if num_convs == 2:
+        for _ in range(num_convs - 1):
             layers += [nn.Conv2d(out_ch, out_ch, kernel_size=k, stride=s, padding=p, bias=(norm is None))]
             if norm == "bn": layers += [nn.BatchNorm2d(out_ch)]
             layers += [act()]

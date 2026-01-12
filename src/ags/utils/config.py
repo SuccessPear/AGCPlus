@@ -82,7 +82,10 @@ def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None, gc = Non
             name = gc
         if isinstance(name, str):
             cfg = _load_named_yaml(root, key, name)
-            exp_cfg[key] = cfg
+            if cfg is not None:
+                exp_cfg[key] = cfg
+            else:
+                exp_cfg[key] = name
     grad_name = exp_cfg.grad.name if exp_cfg.grad else "nongrad"
     schedule_name = exp_cfg.schedule.name if exp_cfg.schedule else "nonsche"
     optim_name = exp_cfg.optimizer.params.name if exp_cfg.optimizer else "nonopt"
