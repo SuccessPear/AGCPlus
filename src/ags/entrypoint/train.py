@@ -210,13 +210,13 @@ def train(config_path: str, gc = ""):
             mlflow.log_artifacts(ckpt_dir, artifact_path="checkpoints")
 
         # 9) Log model
-        try:
-            # MLflow >= 2.17 có log_state_dict
-            mlflow.pytorch.log_state_dict(model.state_dict(), artifact_path="model_state")
-        except Exception:
-            # fallback: log entire model (pickle)
-            mlflow.pytorch.log_model(model, artifact_path="torch_model",
-                          registered_model_name=cfg.get("mlflow", {}).get("register_as"))
+        # try:
+        #     # MLflow >= 2.17 có log_state_dict
+        #     mlflow.pytorch.log_state_dict(model.state_dict(), artifact_path="model_state")
+        # except Exception:
+        #     # fallback: log entire model (pickle)
+        #     mlflow.pytorch.log_model(model, artifact_path="torch_model",
+        #                   registered_model_name=cfg.get("mlflow", {}).get("register_as"))
 
 
 

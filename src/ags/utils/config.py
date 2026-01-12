@@ -86,10 +86,10 @@ def compose_named_configs(exp_cfg_or_path, base_dir: str | None = None, gc = Non
                 exp_cfg[key] = cfg
             else:
                 exp_cfg[key] = name
-    grad_name = exp_cfg.grad.name if exp_cfg.grad else "nongrad"
-    schedule_name = exp_cfg.schedule.name if exp_cfg.schedule else "nonsche"
-    optim_name = exp_cfg.optimizer.params.name if exp_cfg.optimizer else "nonopt"
-    exp_cfg.mlflow.run_name = f"{exp_cfg.model.params.name}_{exp_cfg.dataset.params.name}_{grad_name}_{schedule_name}_{optim_name}"
+    #grad_name = exp_cfg.grad.name if exp_cfg.grad else "nongrad"
+    #schedule_name = exp_cfg.schedule.name if exp_cfg.schedule else "nonsche"
+    #optim_name = exp_cfg.optimizer.params.name if exp_cfg.optimizer else "nonopt"
+    #exp_cfg.mlflow.run_name = f"{exp_cfg.model.params.name}_{exp_cfg.dataset.params.name}_{grad_name}_{schedule_name}_{optim_name}"
     return exp_cfg
 
 
