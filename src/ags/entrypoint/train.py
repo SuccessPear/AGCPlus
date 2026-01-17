@@ -171,11 +171,12 @@ def train(config_path: str, gc = ""):
                 ep = state["epoch"]
 
                 # log metrics mỗi epoch
-                batch_losses = state.get("batch_losses", [])
+                # batch_losses = state.get("batch_losses", [])
                 log_kv = {"epoch_loss_train": float(state.get("epoch_loss_train", 0.0)),
-                          "batch_loss_mean": float(np.mean(batch_losses)),
-                            "batch_loss_std":  float(np.std(batch_losses)),
-                            "batch_loss_max":  float(np.max(batch_losses)),}
+                          # "batch_loss_mean": float(np.mean(batch_losses)),
+                          #   "batch_loss_std":  float(np.std(batch_losses)),
+                          #   "batch_loss_max":  float(np.max(batch_losses)),
+                          }
                 for k, v in res.items():
                     if isinstance(v, (int, float)):
                         log_kv[k] = float(v)

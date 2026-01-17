@@ -2,6 +2,7 @@ dataset: fashion-mnist
 model: mlp
 task: classification
 optimizer: sgd
+lr: 0.1
 criterion: ce
 grad:      # đổi sang none, ags, clipnorm dễ dàng
 trainer: default

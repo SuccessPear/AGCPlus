@@ -1,6 +1,5 @@
 target: src.ags.optim.optim_factory.build_sgd
 params:
   name: sgd
-  lr: 0.3
   momentum: 0.0
   weight_decay: 0.001

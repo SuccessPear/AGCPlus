@@ -139,6 +139,7 @@ def load_metric(cfg) -> Optional[Any]:
 
 def load_optimizer(model, cfg) -> Any:
     opt_spec = cfg["optimizer"]
+    opt_spec["params"]["lr"] = cfg["lr"]
     return _instantiate(opt_spec, params=model.parameters())
 
 def load_scheduler(optimizer, cfg) -> Optional[Any]:
