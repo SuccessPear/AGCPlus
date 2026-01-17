@@ -1,0 +1,15 @@
+target: src.ags.grad.fisher_curv_agc.FisherCurvatureAGC
+name: fisher_curv_agc
+params:
+  clip_factor: 0.01
+  eps: 1e-6
+  exclude_bias: true
+
+  # Fisher (hard gate)
+  fisher_beta: 0.95
+  fisher_eps: 1e-8
+  fisher_threshold: 1e-4
+
+  # Curvature (soft control)
+  curv_beta: 0.9
+  curv_alpha: 1.0

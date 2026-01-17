@@ -5,10 +5,8 @@ def main():
          None,
         "agc",
         "fisher_agc",
-        # "var_agc",
-        # "dynamic_agc",
-        # "safe_dynamic_agc",
-        # "ucc"
+        "agc_c",
+        "fisher_curv_agc"
     ]
     for gc in gc_methods:
         train("configs/defaults.yaml", gc)

@@ -1,0 +1,10 @@
+target: src.ags.grad.agc_c.CurvatureAGC
+name: agc_c
+params:
+  clip_factor: 0.01
+  eps: 1e-6
+  exclude_bias: true
+
+  # curvature-specific
+  curv_beta: 0.9
+  curv_alpha: 1.0

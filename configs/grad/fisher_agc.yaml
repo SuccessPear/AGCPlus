@@ -1,7 +1,7 @@
 target: src.ags.grad.fisher_agc.FisherAGC
 name: fisher_agc
 params:
-  clip_factor: 0.01
+  clip_factor: 0.03
   eps: 1e-6
   exclude_bias: true
 

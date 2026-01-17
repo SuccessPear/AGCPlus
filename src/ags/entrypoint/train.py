@@ -202,12 +202,12 @@ def train(config_path: str, gc = ""):
         trainer.fit(train_loader=train_loader, max_epoch=max_epoch, val_fn=val_callback)
 
         # 7) Save & log last checkpoint
-        _save_ckpt(last_name, model, extra={"epoch": max_epoch - 1})
-        mlflow.log_artifact(last_name, artifact_path="checkpoints")
+        #_save_ckpt(last_name, model, extra={"epoch": max_epoch - 1})
+        #mlflow.log_artifact(last_name, artifact_path="checkpoints")
 
         # 8) Log toàn bộ thư mục checkpoint (tuỳ thích)
-        if os.path.isdir(ckpt_dir):
-            mlflow.log_artifacts(ckpt_dir, artifact_path="checkpoints")
+        # if os.path.isdir(ckpt_dir):
+        #     mlflow.log_artifacts(ckpt_dir, artifact_path="checkpoints")
 
         # 9) Log model
         # try:

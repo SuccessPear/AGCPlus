@@ -10,4 +10,4 @@ params:
   activation: relu        # relu | gelu | silu
   norm: null              # bn | null
   num_classes: 10         # hoặc bỏ, lấy từ cfg.dataset.num_classes
-  in_dim: 3072
+  in_dim: 784

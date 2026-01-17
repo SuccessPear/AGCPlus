@@ -1,15 +1,15 @@
-dataset: cifar10
-model: vit
+dataset: fashion-mnist
+model: mlp
 task: classification
 optimizer: sgd
 criterion: ce
 grad:      # đổi sang none, ags, clipnorm dễ dàng
 trainer: default
 scheduler:
-batch_size: 16
+batch_size: 1
 mlflow:
   tracking_uri: "file:mlruns"
-  experiment: "vit_cifar10_experiments"
+  experiment: "cnn_fmnnist_experiments"
   run_name: "MLP_sgd_0.1_agc_noschedule_v3"
   register_as: null            # "ags-cifar10-cnn" để push vào registry
   tags:
