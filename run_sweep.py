@@ -47,10 +47,9 @@ def main():
                             cfg["dataset"] = dataset
                             cfg["model"] = model
                             cfg["seed"] = seed
-
                             # optimizer
                             cfg.setdefault("optimizer_cfg", {})
-                            cfg["optimizer_cfg"]["lr"] = lr
+                            cfg["lr"] = lr
 
                             # trainer
                             cfg.setdefault("trainer", {})
