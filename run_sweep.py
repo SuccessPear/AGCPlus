@@ -12,7 +12,7 @@ TMP_CFG  = Path("configs/_tmp.yaml")
 # Sweep definition
 # -------------------------------
 MODELS = ["cnn", "mlp"]
-DATASETS = ["fashion_mnist"]
+DATASETS = ["fashion-mnist"]
 BATCH_SIZES = [1, 64, 512]
 LRS = [0.01, 0.1, 1.0]   # SGD example
 GC_METHODS = [None, "agc", "fisher_agc", "agc_c", "fisher_curv_agc"]
