@@ -5,7 +5,7 @@ params:
   # in_dim: 3072
   num_layers: 4           # số hidden layers
   hidden_size: 256        # hoặc dùng hidden_list để tuỳ biến từng layer
-  hidden_list: [512, 512, 256, 128]
+  hidden_list: [256, 64, 32]
   dropout: 0.1
   activation: relu        # relu | gelu | silu
   norm: null              # bn | null
