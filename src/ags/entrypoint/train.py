@@ -128,7 +128,7 @@ def train(config_path: str, gc = ""):
         # 2) Build data/model/opt
         train_loader, val_loader, test_loader = load_dataloaders(cfg)
         model = load_model(cfg).to(device)
-        print(model)
+        #print(model)
 
         loss_fn = load_criterion(cfg)
         optimizer = load_optimizer(model, cfg)
